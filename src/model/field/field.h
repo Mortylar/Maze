@@ -45,7 +45,7 @@ class MazeField: public Field {
       std::memcpy(field_, other.field_, rows_*cols_);
     }
 
-    char& Get(size_t i, size_t j) {
+    char& Get(size_t i, size_t j) const {
       return field_[i * rows_ + j];
     }
 
@@ -61,11 +61,12 @@ class MazeField: public Field {
     if (&other != this) {
       field_ = Allocate(other.rows_ * other.cols_);
       Copy(other);
-    }
+    } //TODO
   }
 
   MazeField(MazeField&& other): MazeField() {
     Swap(std::move(other));
+    //TODO
   }
 
   MazeField& operator=(const MazeField& other) {
@@ -88,9 +89,9 @@ class MazeField: public Field {
     Clear();
   }
 
-  size_t GetRows() { return rows_;}
+  size_t GetRows() const noexcept { return rows_;}
 
-  size_t GetCols() { return cols_; }
+  size_t GetCols() const noexcept { return cols_; }
 
   bool SetRightBorder(size_t i, size_t j) {
     if ((i < rows_) && (j < cols_)) {
@@ -108,14 +109,14 @@ class MazeField: public Field {
     return false;
   }
 
-  bool IsRightBorder(size_t i, size_t j) {
+  bool IsRightBorder(size_t i, size_t j) const {
     if ((i < rows_) && (j < cols_)) {
       return Get(i, j) & K_RIGHT_BORDER;
     }
     return false;
   }
 
-  bool IsDownBorder(size_t i, size_t j) {
+  bool IsDownBorder(size_t i, size_t j) const {
     if ((i < rows_) && (j < cols_)) {
       return Get(i, j) & K_DOWN_BORDER;
     }
