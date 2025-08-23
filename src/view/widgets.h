@@ -9,6 +9,7 @@
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QFileDialog>
+#include <QtGui/QPainter>
 #include <QtCore/QString>
 
 #include <iostream>
@@ -49,6 +50,7 @@ class MainPannel: public QFrame {
       std::cout << file_name_.toStdString() << std::endl; //TODO
     }
     void SwapField() {
+      emit mySignal();
       std::cout << "Swap" << std::endl; //TODO
     }
 };
@@ -211,11 +213,45 @@ class Pannel: public QFrame {
     Pannel() {
       root_ = new QVBoxLayout();
       this->setLayout(root_);
-      main_ = new MainPannel();
+      main_ = new MainPannel(); 
+      connect(main_, SIGNAL(mySignal()), this, SLOT(mySlot()));
       root_->addWidget(main_);
       maze_ = new MazePannel();
       root_->addWidget(maze_);
       this->setFrameStyle(QFrame::Box | QFrame::Raised);
+    }
+  signals:
+    void mySignal(); //TODO
+
+  public slots:
+    void mySlot() {emit mySignal();}; //TODO
+};
+
+class DrawingArea : public QFrame {
+  Q_OBJECT
+  private:
+//    QPainter* painter_;
+
+  public:
+    DrawingArea() {
+  //    painter_ = new QPainter(this);
+    }
+
+    void paintEvent(QPaintEvent* event) {
+      QPainter painter;
+      painter.begin(this);
+      //painter.drawLine(10, 50, 150, 50);
+      //painter_->setPen(Qt::blue);
+      //painter_->setFont(QFont("Arial", 30));
+      //painter_->drawText(rect(), Qt::AlignCenter, "rgsdhs");
+      painter.end();
+    }
+
+    void draw(QPaintEvent* event) {
+      QPainter painter;
+      painter.begin(this);
+      painter.drawLine(10, 50, 150, 50);
+      painter.end();
     }
   signals:
     void mySignal(); //TODO

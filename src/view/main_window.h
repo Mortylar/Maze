@@ -9,32 +9,43 @@
 #include "widgets.h"
 
 class MainWindow: public QMainWindow {
-
+  Q_OBJECT
   private:
     QWidget* main_widget_;
     QHBoxLayout* main_layout_;
-    QPushButton* button1_;
+    DrawingArea* area_;
     Pannel* pannel_;
 
   public:
 
-  MainWindow() {
-    main_widget_ = new QWidget();
-    main_widget_-> setWindowTitle("Window");
+    MainWindow() {
+      main_widget_ = new QWidget();
+      main_widget_-> setWindowTitle("Window");
 
-    main_layout_ = new QHBoxLayout();
-    main_widget_->setLayout(main_layout_);
+      main_layout_ = new QHBoxLayout();
+      main_widget_->setLayout(main_layout_);
 
-    button1_ = new QPushButton("1");
-    main_layout_->addWidget(button1_);
+      area_ = new DrawingArea();
+      area_->setFixedSize(500,500);
+      main_layout_->addWidget(area_);
     
-    pannel_ = new Pannel();
-    main_layout_->addWidget(pannel_);
-  }
+      pannel_ = new Pannel();
+      main_layout_->addWidget(pannel_);
+      connect(pannel_, SIGNAL(mySignal()), this, SLOT(drawSlot()));
+    }
 
-  void show() {
-    main_widget_->show();
-  }
+    void show() {
+      main_widget_->show();
+    //area_->draw();
+    }
+
+  signals:
+    void mySignal(); //TODO
+
+  public slots:
+    void drawSlot() { //TODO
+      //TODO
+    }
     
 
 };
