@@ -9,7 +9,7 @@
 
 class MazeForm {
   private:
-    Maze* maze_;
+    MazeField* maze_;
     std::vector<Line> form_;
 
     void SetBorders() {
@@ -24,12 +24,12 @@ class MazeForm {
   public:
     MazeForm(MazeField* maze): maze_(maze_) {}
 
-    void count() {
+    void Count() {
       const float k_DX = 1.0f / maze_->GetCols();
       const float k_DY = 1.0f / maze_->GetRows();
       SetBorders();
       for (size_t i = 0; i < maze_->GetCols(); ++i) {
-        for (size_t j = 0; j < maze_->GetRows(), ++j) {
+        for (size_t j = 0; j < maze_->GetRows(); ++j) {
           float x = i*k_DX;
           float y = j*k_DY;
           if (maze_->IsRightBorder(i,j)) {
@@ -42,7 +42,7 @@ class MazeForm {
       }
     }
 
-    std::vector<Line>& GetForm() {return form_};
+    std::vector<Line>& GetForm() {return form_; }
 
 };
 

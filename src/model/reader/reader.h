@@ -27,43 +27,43 @@ class Reader {
 class MazeReader: public Reader {
 
   private:
-  MazeField* ReadSize() {
-    int cols = 0;
-    int rows = 0;
-    if (ifs_ >> cols) {
-      if (ifs_ >> rows) {
-        MazeField* maze = new MazeField(cols, rows);
-        return maze;
+    MazeField* ReadSize() {
+      int cols = 0;
+      int rows = 0;
+      if (ifs_ >> cols) {
+        if (ifs_ >> rows) {
+          MazeField* maze = new MazeField(cols, rows);
+          return maze;
+        }
       }
+      throw std::invalid_argument("Can't read from file\n");
     }
-    throw std::invalid_argument("Can't read from file\n");
-  }
 
-  void ReadRightBorder(MazeField& maze) {
-    for (int i = 0; i < maze.GetRows(); ++i) {
-      for (int j = 0; j < maze.GetCols(); ++j) {
-        int x = 0;
-        if (ifs_ >> x) {
-          if (x > 0) maze.SetRightBorder(i,j);
-        } else {
-          throw std::invalid_argument("Can't read from file\n");
+    void ReadRightBorder(MazeField& maze) {
+      for (int i = 0; i < maze.GetRows(); ++i) {
+        for (int j = 0; j < maze.GetCols(); ++j) {
+          int x = 0;
+          if (ifs_ >> x) {
+            if (x > 0) maze.SetRightBorder(i,j);
+          } else {
+            throw std::invalid_argument("Can't read from file\n");
+          }
         }
       }
     }
-  }
 
-  void ReadDownBorder(MazeField& maze) {
-    for (int i = 0; i < maze.GetRows(); ++i) {
-      for (int j = 0; j < maze.GetCols(); ++j) {
-        int x = 0;
-        if (ifs_ >> x) {
-          if (x > 0) maze.SetDownBorder(i,j);
-        } else {
-          throw std::invalid_argument("Can't read from file\n");
+    void ReadDownBorder(MazeField& maze) {
+      for (int i = 0; i < maze.GetRows(); ++i) {
+        for (int j = 0; j < maze.GetCols(); ++j) {
+          int x = 0;
+          if (ifs_ >> x) {
+            if (x > 0) maze.SetDownBorder(i,j);
+          } else {
+            throw std::invalid_argument("Can't read from file\n");
+          }
         }
       }
     }
-  }
 
   public:
 

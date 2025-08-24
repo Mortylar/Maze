@@ -8,7 +8,7 @@ class Line {
     Point x_;
     Point y_;
 
-    void Copy(Line& other) noexcept {
+    void Copy(const Line& other) noexcept {
       x_ = other.x_;
       y_ = other.y_;
     }
@@ -24,7 +24,7 @@ class Line {
     Line(Point x = Point(), Point y = Point()): x_(x), y_(y) {};
 
     Line(const Line& other) {
-      if (*this != other) {
+      if (this != &other) {
         Copy(other);
       } else {
         SetDefault();
@@ -32,7 +32,7 @@ class Line {
     }
 
     Line(Line&& other) { 
-      if (*this != other) {
+      if (this != &other) {
         Copy(other);
       } else {
         SetDefault();
@@ -56,6 +56,7 @@ class Line {
     Line& Move(const float dx, const float dy) {
       x_.Move(dx, dy);
       y_.Move(dx, dy);
+      return *this;
     }
 
     Point GetX() const {
