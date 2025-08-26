@@ -1,19 +1,26 @@
-CC=g++
+CC=g++ -std=c++17
 INC = -I /usr/include/x86_64-linux-gnu/qt6
 LIB = -L /usr/lib/x86_64-linux-gnu
 LFLAGS = -l Qt6Core -l Qt6Widgets -lQt6Gui
 MOC=/usr/lib/qt6/libexec/moc
+LIB_TARGET=libview.a
 
 
-
-
-a:
+moc:	
 	$(MOC) widgets.h > moc_widgets.cc
 	$(MOC) main_window.h > moc_main_window.cc
-	g++ main.cc -c $(INC)
-	g++ moc_widgets.cc moc_main_window.cc -c $(INC)
-	g++ main.o moc_widgets.o moc_main_window.o $(LFLAGS)
-	./a.out
+
+libview.a: moc
+	$(CC) -c view.cc $(INC)
+	$(CC) moc_widgets.cc moc_main_window.cc -c $(INC)
+	ar rcs $(LIB_MODEL) *.o
+a:
+	#$(MOC) widgets.h > moc_widgets.cc
+	#$(MOC) main_window.h > moc_main_window.cc
+	#g++ main.cc -c $(INC)
+	#g++ moc_widgets.cc moc_main_window.cc -c $(INC)
+	#g++ main.o moc_widgets.o moc_main_window.o $(LFLAGS)
+	#./a.out
 
 aa:
 	echo $(CC)

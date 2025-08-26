@@ -31,10 +31,10 @@ class MainPannel: public QFrame {
     MainPannel() {
       root_ = new QGridLayout(this);
       file_button_ = new QPushButton(file_button_name_);
-      connect(file_button_, SIGNAL(clicked()), this, SLOT(ReadFile()));
+      connect(file_button_, SIGNAL(clicked()), this, SLOT(readFile()));
 
       swap_field_button_ = new QPushButton(maze_button_name_);
-      connect(swap_field_button_, SIGNAL(clicked()), this, SLOT(SwapField()));
+      connect(swap_field_button_, SIGNAL(clicked()), this, SLOT(swapField()));
       root_->addWidget(file_button_, 0,0,1,2);
       root_->addWidget(swap_field_button_, 0,2,1,1);
 
@@ -43,13 +43,17 @@ class MainPannel: public QFrame {
 
   signals:
     void mySignal(); //TODO
+    void fileChoosen(const QString&);
 
-  private slots:
-    void ReadFile() {
+  public slots:
+    void readFile() {
       file_name_ = QFileDialog::getOpenFileName();
-      std::cout << file_name_.toStdString() << std::endl; //TODO
+      std::cout << "51 emit " << file_name_.toStdString() << std::endl;
+      /*if (!file_name_.size())*/ emit fileChoosen(file_name_);
+      //std::cout << file_name_.toStdString() << std::endl; //TODO
     }
-    void SwapField() {
+
+    void swapField() {
       emit mySignal();
       std::cout << "Swap" << std::endl; //TODO
     }
@@ -215,6 +219,7 @@ class Pannel: public QFrame {
       this->setLayout(root_);
       main_ = new MainPannel(); 
       connect(main_, SIGNAL(mySignal()), this, SLOT(mySlot()));
+      connect(main_, SIGNAL(fileChoosen(const QString&)), this, SLOT(fileChoosenSlot(const QString&)));
       root_->addWidget(main_);
       maze_ = new MazePannel();
       root_->addWidget(maze_);
@@ -222,9 +227,13 @@ class Pannel: public QFrame {
     }
   signals:
     void mySignal(); //TODO
+    void fileChoosen(const QString& file);
 
   public slots:
     void mySlot() {emit mySignal();}; //TODO
+    void fileChoosenSlot(const QString& file) {
+      std::cout << "234 " << file.toStdString() << std::endl;
+      emit fileChoosen(file);}
 };
 
 class DrawingArea : public QFrame {
