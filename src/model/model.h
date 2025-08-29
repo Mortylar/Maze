@@ -17,7 +17,7 @@ class Model {
   public:
     Model() = default;
 
-    std::vector<Line>& LoadMaze(const char* file_name);
+    std::vector<Line> LoadMaze(const char* file_name);
 
     ~Model() { Clear(); }
 };

@@ -13,7 +13,7 @@
 #include <QtCore/QString>
 
 #include <iostream>
-
+#include "../common/line.h"
 
 class MainPannel: public QFrame {
   Q_OBJECT
@@ -239,21 +239,45 @@ class Pannel: public QFrame {
 class DrawingArea : public QFrame {
   Q_OBJECT
   private:
-//    QPainter* painter_;
+    std::vector<Line> buffer_;
 
   public:
     DrawingArea() {
-  //    painter_ = new QPainter(this);
+      //std::cout << "buffer size " << buffer_.size() << std::endl;
+      buffer_ = std::vector<Line>();
+      //std::cout << "buffer size " << buffer_.size() << std::endl;
+    }
+
+    void setBuffer(std::vector<Line> buffer) {
+      buffer_ = buffer;
     }
 
     void paintEvent(QPaintEvent* event) {
-      QPainter painter;
-      painter.begin(this);
-      //painter.drawLine(10, 50, 150, 50);
-      //painter_->setPen(Qt::blue);
-      //painter_->setFont(QFont("Arial", 30));
-      //painter_->drawText(rect(), Qt::AlignCenter, "rgsdhs");
-      painter.end();
+      //std::cout << "buffer size " << buffer_.size() << std::endl;
+      if (buffer_.size() > 0) {
+        QPainter painter;
+        QPen pen;
+        pen.setWidth(2);
+        pen.setColor(Qt::red);
+        painter.begin(this);
+        painter.setPen(pen);
+        const float k_WIDTH = this->width() - 1;
+        const float k_HEIGHT = this->height() - 1;
+        for (size_t i = 0; i < buffer_.size(); ++i) {
+          Line& l = buffer_[i];
+          l.Print();
+          float x1 = l.GetX().GetX() * k_WIDTH;
+          float y1 = l.GetX().GetY() * k_HEIGHT;
+          float x2 = l.GetY().GetX() * k_WIDTH;
+          float y2 = l.GetY().GetY() * k_HEIGHT;
+
+          painter.drawLine(x1, y1, x2, y2);
+        }
+        //painter_->setPen(Qt::blue);
+        //painter_->setFont(QFont("Arial", 30));
+        //painter_->drawText(rect(), Qt::AlignCenter, "rgsdhs");
+        painter.end();
+      }
     }
 
     void draw(QPaintEvent* event) {

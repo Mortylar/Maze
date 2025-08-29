@@ -66,6 +66,10 @@ class Line {
     Point GetY() const {
       return y_;
     }
+    void Print() {
+      std::cout << "Line ((" << x_.GetX() << "; " << x_.GetY() << "), ";
+      std::cout << "(" << y_.GetX() << "; " << y_.GetY() << ")" << std::endl;
+    }
 };
 
 #endif

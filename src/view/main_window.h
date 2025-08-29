@@ -45,8 +45,11 @@ class MainWindow: public QMainWindow {
     void mySignal(); //TODO
 
   public slots:
-    void drawSlot(const QString& file) { //TODO
-       std::cout << "AAAA   " << file.toStdString() << std::endl;
+    void drawSlot(const QString& file) { //TODO 
+      std::cout << "AAAA   " << file.toStdString() << std::endl;
+      area_->setBuffer(controller_->Load(file.toStdString().data()));
+      area_->repaint();
+      std::cout << "AAAA   " << file.toStdString() << std::endl;
       //TODO
     }
     
